@@ -57,7 +57,7 @@ export default function UserEditModal() {
               value={editingUser.name}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' }} // CSS 변수 사용
+              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties} // CSS 변수 사용
             />
           </div>
           {/* 이메일 필드 */}
@@ -69,7 +69,7 @@ export default function UserEditModal() {
               value={editingUser.email}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' }}
+              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties}
             />
           </div>
           {/* 연령 필드 */}
@@ -81,7 +81,7 @@ export default function UserEditModal() {
               value={editingUser.age}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' }}
+              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties}
             />
           </div>
           {/* 상태 필드 */}
@@ -92,7 +92,7 @@ export default function UserEditModal() {
               value={editingUser.status}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' }}
+              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties}
             >
               <option value="active">활성</option>
               <option value="inactive">비활성</option>
