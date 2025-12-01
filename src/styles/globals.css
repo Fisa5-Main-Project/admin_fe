@@ -2,15 +2,64 @@
 
 /* --- CSS 변수 및 기본 스타일 --- */
 body {
-    background-color: #ffffff; /* 흰색 배경 */
-    color: #212529; /* neutral-900 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* === 디자인 토큰 (최소) === */
+/* === FinSet 디자인 시스템 토큰 (DESIGN_DETAILS.md) === */
 :root {
-    --border-color: #e5e7eb; /* 흐릿한 테두리 */
-    --brand: #4e07ff; /* 액션 버튼 색 */
-    --radius-ctrl: 4px; /* ✅ 버튼/인풋 라운드 통일 */
+    /* 색상 */
+    --primary: #0099ff;
+    --primary-dark: #0064ff;
+    --secondary: #43b4ff;
+    --light: #c7e8ff;
+
+    /* 폰트 */
+    --font-size: 16px;
+    --font-weight-medium: 500;
+    --font-weight-normal: 400;
+
+    /* 모서리 */
+    --radius: 10px;
+
+    /* Ring (Focus) */
+    --ring: #0099ff;
+
+    /* 차트 색상 */
+    --chart-1: #0099ff;
+    --chart-2: #43b4ff;
+    --chart-3: #c7e8ff;
+    --chart-4: #0064ff;
+    --chart-5: #333f56;
+}
+
+/* === 기본 타이포그래피 (DESIGN_DETAILS.md) === */
+/* h1-h4 태그는 전역 스타일 대신, 각 컴포넌트에서 유틸리티 클래스로 크기를 명시적으로 지정합니다. */
+
+p {
+    font-size: 18px;
+    font-weight: 400;
+    /* normal */
+    line-height: 1.5;
+    /* 27px */
+}
+
+button {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+label {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+input {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
 }
 
 /* 통신사 트리거(드롭다운 버튼) — 인풋과 동일 톤 */
@@ -18,3 +67,20 @@ body {
     @apply flex items-center justify-between;
 }
 
+/* 사이드바 활성 링크 스타일 */
+.sidebar-link-active {
+    color: white;
+    background: linear-gradient(to right, #0099ff, #0064ff);
+    box-shadow: 0 10px 25px rgba(0, 153, 255, 0.2);
+}
+
+/* StatCard 배지 스타일 */
+.badge-increase {
+    background-color: #D1FAE5; /* 명세서의 bg-green-100에 해당 */
+    color: #059669;           /* 명세서의 text-green-700에 해당 */
+}
+
+.badge-decrease {
+    background-color: #FEE2E2; /* 명세서의 bg-red-100에 해당 */
+    color: #DC2626;           /* 명세서의 text-red-600에 해당 */
+}
