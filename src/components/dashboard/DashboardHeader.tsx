@@ -34,7 +34,7 @@ export default function DashboardHeader() {
                 <button className="relative w-10 h-10 bg-white rounded-xl flex items-center justify-center hover:bg-gray-50 transition-all border border-gray-200">
                     <Bell className="w-5 h-5 text-gray-600" />
                     {/* 알림 배지 (빨간 점) */}
-                    <span className="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
                 </button>
 
                 {/* 프로필 정보 */}

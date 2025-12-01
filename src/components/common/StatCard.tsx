@@ -8,12 +8,20 @@ import React from 'react';
 interface StatCardProps {
   title: string;
   value: string;
-  change: string;
-  changeType: 'increase' | 'decrease';
   description: string;
+  change?: string; // (옵션) 변화율 값 (e.g., '+14.2%')
+  changeType?: 'increase' | 'decrease'; // (옵션) 변화 타입
+  descriptionColor?: 'gray' | 'green' | 'red'; // (옵션) 설명 텍스트 색상
 }
 
-export default function StatCard({ title, value, change, changeType, description }: StatCardProps) {
+export default function StatCard({ 
+  title, 
+  value, 
+  change, 
+  changeType, 
+  description, 
+  descriptionColor = 'gray' // 기본값은 회색
+}: StatCardProps) {
   const isIncrease = changeType === 'increase';
 
   return (
@@ -28,28 +36,41 @@ export default function StatCard({ title, value, change, changeType, description
         </button>
       </div>
 
-      {/* 값: 명세에 따라 h1 스타일(32px, 500)을 span에 적용 */}
+      {/* 값 */}
       <div className="mb-3">
         <span className="text-gray-900 text-2xl font-medium">{value}</span>
       </div>
 
-      {/* 변화율 */}
-      <div className="flex items-center gap-2">
+      {/* 하단 설명: 'change' prop의 존재 여부에 따라 조건부 렌더링 */}
+      {change ? (
+        // 변화율 배지 모드 (대시보드 페이지용)
+        <div className="flex items-center gap-2">
+          <div
+            className={clsx(
+              'flex items-center gap-1 px-2 py-1 rounded-lg',
+              isIncrease ? 'badge-increase' : 'badge-decrease'
+            )}
+          >
+            {isIncrease ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+            <span className="text-xs font-medium">{change}</span>
+          </div>
+          <span className="text-xs text-gray-500">{description}</span>
+        </div>
+      ) : (
+        // 단순 텍스트 설명 모드 (사용자 관리 페이지용)
         <div
           className={clsx(
-            'flex items-center gap-1 px-2 py-1 rounded-lg',
-            isIncrease ? 'badge-increase' : 'badge-decrease'
+            "text-xs font-medium",
+            {
+              'text-gray-500': descriptionColor === 'gray',
+              'text-green-600': descriptionColor === 'green',
+              'text-red-600': descriptionColor === 'red',
+            }
           )}
         >
-          {isIncrease ? (
-            <TrendingUp className="w-3 h-3" />
-          ) : (
-            <TrendingDown className="w-3 h-3" />
-          )}
-          <span className="text-xs font-medium">{change}</span>
+          {description}
         </div>
-        <span className="text-xs text-gray-500">{description}</span>
-      </div>
+      )}
     </div>
   );
 }
