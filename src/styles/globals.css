@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+/* --- CSS 변수 및 기본 스타일 --- */
+body {
+    background-color: #ffffff; /* 흰색 배경 */
+    color: #212529; /* neutral-900 */
+}
+
+/* === 디자인 토큰 (최소) === */
+:root {
+    --border-color: #e5e7eb; /* 흐릿한 테두리 */
+    --brand: #4e07ff; /* 액션 버튼 색 */
+    --radius-ctrl: 4px; /* ✅ 버튼/인풋 라운드 통일 */
+}
+
+/* 통신사 트리거(드롭다운 버튼) — 인풋과 동일 톤 */
+.carrier-trigger {
+    @apply flex items-center justify-between;
+}
+
