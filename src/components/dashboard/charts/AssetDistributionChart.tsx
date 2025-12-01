@@ -43,7 +43,7 @@ const CustomLegend = (props: any) => {
 
 export default function AssetDistributionChart() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full">
+    <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full focus:outline-none">
       {/* 헤더 */}
       <div className="mb-6">
         <h3 className="font-semibold text-gray-900">자산 타입별 분포</h3>

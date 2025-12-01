@@ -18,7 +18,7 @@ import { userGrowthData } from './UserGrowthChart'; // userGrowthData는 AreaCha
 
 export default function DauChart() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full">
+    <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full focus:outline-none">
       {/* 헤더 */}
       <div className="flex items-center justify-between mb-6">
         <div>

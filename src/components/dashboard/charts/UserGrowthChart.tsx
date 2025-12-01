@@ -27,7 +27,7 @@ export const userGrowthData = [
 
 export default function UserGrowthChart() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full">
+    <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full focus:outline-none" tabIndex={-1}>
       {/* 헤더 */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -60,8 +60,8 @@ export default function UserGrowthChart() {
             </linearGradient>
             {/* 신규 가입자 수 그라데이션 (ID 및 색상 헥스 코드로 수정) */}
             <linearGradient id="colorNew" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#43b4ff" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#43b4ff" stopOpacity={0} />
+              <stop offset="5%" stopColor="#10B981" stopOpacity={0.3} /> {/* 색상 초록색으로 변경 */}
+              <stop offset="95%" stopColor="#10B981" stopOpacity={0} /> {/* 색상 초록색으로 변경 */}
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--gray-200)" />
@@ -89,12 +89,11 @@ export default function UserGrowthChart() {
             type="monotone"
             dataKey="newUsers"
             name="신규 가입자"
-            stroke="#43b4ff" // 색상을 헥스 코드로 수정
+            stroke="#10B981" // 색상을 초록색으로 변경
             strokeWidth={2}
             fillOpacity={1}
             fill="url(#colorNew)"
-          />
-        </AreaChart>
+          />        </AreaChart>
       </ResponsiveContainer>
     </div>
   );

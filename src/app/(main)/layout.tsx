@@ -8,7 +8,7 @@ interface AdminLayoutProps {
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
     return (
-        <div className="flex h-screen bg-background font-sans text-gray-900 antialiased">
+        <div className="flex h-screen antialiased">
           <Sidebar />
           <main className="flex-1 overflow-y-auto p-8">
             {children}

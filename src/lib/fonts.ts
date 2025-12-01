@@ -54,26 +54,4 @@ export const pretendard = localFont({
     weight: '400 500 600 700', // 사용할 폰트 굵기
 });
 
-// Wooridaum 폰트 설정
-export const wooridaum = localFont({
-    src: [
-        {
-            path: '../../public/fonts/wooridaum/WooridaumL.ttf',
-            weight: '300',
-            style: 'normal',
-        },
-        {
-            path: '../../public/fonts/wooridaum/WooridaumR.ttf',
-            weight: '400',
-            style: 'normal',
-        },
-        {
-            path: '../../public/fonts/wooridaum/WooridaumB.ttf',
-            weight: '700',
-            style: 'normal',
-        },
-    ],
-    variable: '--font-wooridaum', // CSS 변수 이름
-    display: 'swap',
-    weight: '400 700', // 사용할 폰트 굵기
-});
+
