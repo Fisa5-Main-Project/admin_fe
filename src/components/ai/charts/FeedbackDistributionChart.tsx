@@ -49,7 +49,7 @@ export default function FeedbackDistributionChart() {
         {/* 커스텀 범례 */}
         <div className="w-1/2 flex flex-col items-start justify-center space-y-3 pl-4">
           {feedbackDistribution.map((item, index) => (
-            <div key={index} className="flex items-center gap-3">
+            <div key={item.name} className="flex items-center gap-3">
               <div
                 className={`w-3 h-3 rounded-full`}
                 style={{ backgroundColor: item.color }}

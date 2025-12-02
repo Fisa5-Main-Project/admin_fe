@@ -5,17 +5,7 @@ import React, { useMemo } from 'react';
 import { Search, ThumbsUp, ThumbsDown } from 'lucide-react';
 import clsx from 'clsx';
 import useAIAnalyticsStore from '@/store/ai-analytics-store';
-
-// UserAIStats 인터페이스 (page.tsx에서 복사)
-interface UserAIStats {
-  userId: string;
-  userName: string;
-  chatCount: number;
-  apiRequests: number;
-  likes: number;
-  dislikes: number;
-  feedbackRatio: number;
-}
+import type { UserAIStats } from '@/types/ai';
 
 interface AIUsageTableProps {
   users: UserAIStats[];

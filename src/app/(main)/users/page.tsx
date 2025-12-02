@@ -4,15 +4,12 @@ import UserStats from '@/components/users/UserStats';
 import UserFilterSearch from '@/components/users/UserFilterSearch';
 import UserTable from '@/components/users/UserTable';
 import UserHeader from '@/components/users/UserHeader';
-import UserEditModal from '@/components/users/UserEditModal'; // UserEditModal 임포트
-import type { User } from '@/types/user'; // 중앙 관리되는 User 타입 import
+import UserEditModal from '@/components/users/UserEditModal';
+import type { User } from '@/types/user';
 import { getUsers } from '@/api/users';
 
 export default async function UsersPage() {
   const usersRes = await getUsers();
-  
-  // --- 디버깅 로그 추가 ---
-  console.log("사용자 API 응답:", JSON.stringify(usersRes, null, 2));
   
   const users: User[] = usersRes.isSuccess ? usersRes.data : [];
 

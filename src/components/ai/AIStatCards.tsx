@@ -60,7 +60,7 @@ export default function AIStatCards({ stats }: AIStatCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {stats.map((stat, index) => (
-        <StatCard key={index} card={stat} />
+        <StatCard key={stat.title} card={stat} />
       ))}
     </div>
   );

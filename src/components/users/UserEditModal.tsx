@@ -70,8 +70,8 @@ export default function UserEditModal() {
             <label className="block text-sm text-gray-600 mb-2">사용자 ID</label>
             <input
               type="text"
-              name="email"
-              value={editingUser.email}
+              name="id"
+              value={editingUser.id}
               readOnly
               className="w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-xl focus:outline-none cursor-not-allowed"
               style={{ '--tw-ring-color': 'var(--primary)' }}

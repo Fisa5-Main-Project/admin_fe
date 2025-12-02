@@ -4,17 +4,7 @@ import AIStatCards from '@/components/ai/AIStatCards';
 import ConversationTrendChart from '@/components/ai/charts/ConversationTrendChart';
 import FeedbackDistributionChart from '@/components/ai/charts/FeedbackDistributionChart';
 import AIUsageTable from '@/components/ai/AIUsageTable';
-
-// UserAIStats 인터페이스 (나중에 types/로 이동)
-interface UserAIStats {
-  userId: string;
-  userName: string;
-  chatCount: number;
-  apiRequests: number;
-  likes: number;
-  dislikes: number;
-  feedbackRatio: number;
-}
+import type { UserAIStats } from '@/types/ai';
 
 // 목업 데이터 (DESIGN_SPECIFICATION_AI.md 기반)
 const mockUserStats: UserAIStats[] = [
