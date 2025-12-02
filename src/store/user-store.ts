@@ -1,17 +1,6 @@
 // src/store/user-store.ts
 import { create } from 'zustand';
-
-// User 인터페이스 (page.tsx에서 복사, 추후 types/ 로 분리)
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  age: number;
-  totalAsset: number;
-  joinDate: string;
-  lastActive: string;
-  status: 'active' | 'inactive';
-}
+import type { User } from '../types/user'; // 중앙 관리되는 User 타입 import
 
 // 스토어의 상태(state)와 액션(actions)에 대한 타입 정의
 interface UserState {

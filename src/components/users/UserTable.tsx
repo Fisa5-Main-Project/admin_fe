@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { Edit, Eye, Trash2 } from 'lucide-react';
 import clsx from 'clsx';
 import useUserStore from '@/store/user-store'; // Zustand 스토어 임포트
-import { User } from '@/store/user-store'; // User 인터페이스 임포트
+import type { User } from '@/types/user'; // 중앙 관리되는 User 타입 import
 
 interface UserTableProps {
     users: User[]; // mockUsers를 props로 받음
@@ -33,11 +33,11 @@ export default function UserTable({ users }: UserTableProps) {
   }, [users, searchQuery, filterStatus]); // users가 변경될 때도 다시 필터링
 
   // 사용자 삭제 처리 함수
-  const handleDelete = (userId: string) => {
+  const handleDelete = (userId: number) => {
     if (window.confirm('정말로 이 사용자를 삭제하시겠습니까?')) {
       console.log('Deleting user:', userId);
       // TODO: 실제 API 호출 및 UI 업데이트 로직 추가
-      alert(`사용자 ${userId} 삭제 (개발 모드)`);
+      alert(`사용자 ID ${userId} 삭제 (개발 모드)`);
     }
   };
 

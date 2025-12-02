@@ -41,7 +41,7 @@ export default function DetailedAssetTable({ data }: DetailedAssetTableProps) {
                     {/* 테이블 바디 */}
                     <tbody>
                         {data.map((item, index) => (
-                            <tr key={index} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                            <tr key={item.type} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                                 {/* 자산 타입 */}
                                 <td className="py-4 px-4">
                                     <div className="flex items-center">

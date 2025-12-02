@@ -21,8 +21,13 @@ export default function UserEditModal() {
 
   // 입력 필드 변경 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setEditingUser(prev => (prev ? { ...prev, [name]: value } : null));
+    const { name, value, type } = e.target;
+    setEditingUser(prev => {
+      if (!prev) return null;
+      // 'number' 타입 input의 경우 value를 숫자로 변환
+      const newValue = type === 'number' ? parseInt(value, 10) : value;
+      return { ...prev, [name]: newValue };
+    });
   };
 
   // 저장 버튼 클릭 핸들러

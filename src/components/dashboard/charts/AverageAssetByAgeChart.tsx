@@ -46,10 +46,7 @@ export default function AverageAssetByAgeChart({ data }: AverageAssetByAgeChartP
       {/* 차트 */}
       <ResponsiveContainer width="100%" height={280}>
         <BarChart
-          data={data.map(item => ({
-            ...item,
-            averageAsset: item.averageAsset, 
-          }))}
+          data={data}
           margin={{
             top: 5,
             right: 30,
