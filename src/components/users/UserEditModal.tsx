@@ -65,15 +65,15 @@ export default function UserEditModal() {
               style={{ '--tw-ring-color': 'var(--primary)' }} // CSS 변수 사용
             />
           </div>
-          {/* 이메일 필드 */}
+          {/* 사용자 ID 필드 (읽기 전용) */}
           <div>
-            <label className="block text-sm text-gray-600 mb-2">이메일</label>
+            <label className="block text-sm text-gray-600 mb-2">사용자 ID</label>
             <input
-              type="email"
+              type="text"
               name="email"
               value={editingUser.email}
-              onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
+              readOnly
+              className="w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-xl focus:outline-none cursor-not-allowed"
               style={{ '--tw-ring-color': 'var(--primary)' }}
             />
           </div>

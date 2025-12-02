@@ -11,7 +11,7 @@ export default function UserStats({ users }: UserStatsProps) {
   const totalUsers = users.length;
   const activeUsers = users.filter(user => user.status === 'active').length;
   const inactiveUsers = totalUsers - activeUsers;
-  const totalAssets = users.reduce((acc, user) => acc + user.totalAsset, 0);
+  const totalAssets = users.reduce((acc, user) => acc + (user.totalAsset ?? 0), 0);
   const averageAsset = totalUsers > 0 ? Math.round(totalAssets / totalUsers) : 0;
 
   const stats = [
