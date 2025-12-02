@@ -13,19 +13,22 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import { UserGrowthData } from '@/types/dashboard';
 
-// DESIGN_SPECIFICATION_CHARTS.md에 명시된 목업 데이터
-export const userGrowthData = [
-  { month: 'Jan', users: 1200, newUsers: 150, dau: 800 },
-  { month: 'Feb', users: 1450, newUsers: 250, dau: 920 },
-  { month: 'Mar', users: 1850, newUsers: 400, dau: 1100 },
-  { month: 'Apr', users: 2300, newUsers: 450, dau: 1350 },
-  { month: 'May', users: 2800, newUsers: 500, dau: 1600 },
-  { month: 'Jun', users: 3350, newUsers: 550, dau: 1850 },
-  { month: 'Jul', users: 3900, newUsers: 550, dau: 2100 },
-];
+interface UserGrowthChartProps {
+  data: UserGrowthData[];
+}
 
-export default function UserGrowthChart() {
+export default function UserGrowthChart({ data }: UserGrowthChartProps) {
+  // 데이터가 없거나 로딩 중일 때 표시할 UI
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full flex justify-center items-center">
+        <p className="text-gray-500">데이터를 불러오는 중입니다...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full focus:outline-none" tabIndex={-1}>
       {/* 헤더 */}
@@ -44,7 +47,7 @@ export default function UserGrowthChart() {
       {/* 차트 */}
       <ResponsiveContainer width="100%" height={280}>
         <AreaChart
-          data={userGrowthData}
+          data={data}
           margin={{
             top: 5,
             right: 30,

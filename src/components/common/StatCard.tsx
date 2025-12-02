@@ -1,7 +1,7 @@
 // src/components/common/StatCard.tsx
 'use client';
 
-import { ArrowUpRight, TrendingDown, TrendingUp } from 'lucide-react';
+import { ArrowUpRight, TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -10,7 +10,7 @@ interface StatCardProps {
   value: string;
   description: string;
   change?: string; // (옵션) 변화율 값 (e.g., '+14.2%')
-  changeType?: 'increase' | 'decrease'; // (옵션) 변화 타입
+  changeType?: 'increase' | 'decrease' | 'neutral'; // 'neutral' 추가
   descriptionColor?: 'gray' | 'green' | 'red'; // (옵션) 설명 텍스트 색상
 }
 
@@ -23,6 +23,7 @@ export default function StatCard({
   descriptionColor = 'gray' // 기본값은 회색
 }: StatCardProps) {
   const isIncrease = changeType === 'increase';
+  const isDecrease = changeType === 'decrease';
 
   return (
     <div
@@ -48,10 +49,16 @@ export default function StatCard({
           <div
             className={clsx(
               'flex items-center gap-1 px-2 py-1 rounded-lg',
-              isIncrease ? 'badge-increase' : 'badge-decrease'
+              {
+                'badge-increase': isIncrease,
+                'badge-decrease': isDecrease,
+                'badge-neutral': !isIncrease && !isDecrease, // neutral 상태 추가
+              }
             )}
           >
-            {isIncrease ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+            {isIncrease && <TrendingUp className="w-3 h-3" />}
+            {isDecrease && <TrendingDown className="w-3 h-3" />}
+            {!isIncrease && !isDecrease && <Minus className="w-3 h-3" />}
             <span className="text-xs font-medium">{change}</span>
           </div>
           <span className="text-xs text-gray-500">{description}</span>
