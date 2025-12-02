@@ -1,16 +1,18 @@
 // src/components/dashboard/DashboardHeader.tsx
-import { Bell, Calendar, Search } from 'lucide-react';
-import React from 'react';
+'use client';
 
-// 현재 날짜를 "YYYY년 M월 D일" 형식으로 반환하는 유틸리티 함수
-function getFormattedDate() {
-    const today = new Date();
-    return `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-}
+import { Bell, Calendar, Search } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
 export default function DashboardHeader() {
-    // 포맷된 현재 날짜를 가져옵니다.
-    const formattedDate = getFormattedDate();
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        // 컴포넌트가 클라이언트 측에서 마운트된 후에 날짜를 설정합니다.
+        const today = new Date();
+        const dateString = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+        setFormattedDate(dateString);
+    }, []);
 
     return (
         // 헤더 컨테이너: 아이템을 양쪽 끝으로 정렬하고 하단 여백을 줍니다.

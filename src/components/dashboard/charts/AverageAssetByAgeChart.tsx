@@ -13,17 +13,22 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import { AssetByAgeData } from '@/types/dashboard';
 
-// PAGES_DOCUMENTATION.md에 명시된 목업 데이터
-const averageAssetData = [
-  { ageGroup: '20대', averageAsset: 40000000 },
-  { ageGroup: '30대', averageAsset: 75000000 },
-  { ageGroup: '40대', averageAsset: 120000000 },
-  { ageGroup: '50대', averageAsset: 90000000 },
-  { ageGroup: '60대+', averageAsset: 60000000 },
-];
+interface AverageAssetByAgeChartProps {
+  data: AssetByAgeData[];
+}
 
-export default function AverageAssetByAgeChart() {
+export default function AverageAssetByAgeChart({ data }: AverageAssetByAgeChartProps) {
+  // 데이터가 없거나 로딩 중일 때 표시할 UI
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full flex justify-center items-center">
+        <p className="text-gray-500">데이터를 불러오는 중입니다...</p>
+      </div>
+    );
+  }
+
   // Y축과 툴팁의 금액을 '억' 단위로 포맷하는 함수
   const formatCurrency = (value: number) => {
     if (value === 0) return '0';
@@ -41,7 +46,7 @@ export default function AverageAssetByAgeChart() {
       {/* 차트 */}
       <ResponsiveContainer width="100%" height={280}>
         <BarChart
-          data={averageAssetData}
+          data={data}
           margin={{
             top: 5,
             right: 30,
@@ -64,14 +69,14 @@ export default function AverageAssetByAgeChart() {
               borderRadius: '8px',
               fontSize: 'var(--text-sm)',
             }}
-            cursor={{ fill: 'rgba(0,0,0,0.05)' }} // 툴팁 커서 배경을 더 투명하게 조정
+            cursor={{ fill: 'rgba(0,0,0,0.05)' }} 
           />
           <Legend />
           <Bar
             dataKey="averageAsset"
             name="평균 자산"
             fill="#0099ff"
-            radius={[8, 8, 0, 0]} // 상단 모서리만 둥글게
+            radius={[8, 8, 0, 0]} 
           />
         </BarChart>
       </ResponsiveContainer>
