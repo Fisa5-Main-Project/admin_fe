@@ -24,7 +24,7 @@ const CustomLegend = (props: any) => {
     return (
       <ul className="flex flex-col justify-center space-y-3">
         {payload.map((entry: any, index: number) => (
-          <li key={`item-${index}`} className="flex items-center">
+          <li key={entry.name} className="flex items-center">
             {/* 색상 점 - getAssetTypeColor 함수 사용 */}
             <div className="w-3 h-3 rounded-full mr-3" style={{ backgroundColor: getAssetTypeColor(entry.name) }} />
             {/* 이름 및 퍼센트 */}

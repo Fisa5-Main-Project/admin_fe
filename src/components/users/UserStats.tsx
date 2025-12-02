@@ -1,17 +1,7 @@
 // src/components/users/UserStats.tsx
 import React from 'react';
 import StatCard from '@/components/common/StatCard';
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  age: number;
-  totalAsset: number;
-  joinDate: string;
-  lastActive: string;
-  status: 'active' | 'inactive';
-}
+import type { User } from '@/types/user';
 
 interface UserStatsProps {
   users: User[];
@@ -21,7 +11,7 @@ export default function UserStats({ users }: UserStatsProps) {
   const totalUsers = users.length;
   const activeUsers = users.filter(user => user.status === 'active').length;
   const inactiveUsers = totalUsers - activeUsers;
-  const totalAssets = users.reduce((acc, user) => acc + user.totalAsset, 0);
+  const totalAssets = users.reduce((acc, user) => acc + (user.totalAsset ?? 0), 0);
   const averageAsset = totalUsers > 0 ? Math.round(totalAssets / totalUsers) : 0;
 
   const stats = [
@@ -55,7 +45,7 @@ export default function UserStats({ users }: UserStatsProps) {
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
       {stats.map((stat, index) => (
         <StatCard
-          key={index}
+          key={stat.title}
           title={stat.title}
           value={stat.value}
           description={stat.description}
