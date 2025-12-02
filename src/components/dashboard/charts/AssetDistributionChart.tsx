@@ -10,14 +10,13 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
+import { AssetDistributionData } from '@/types/dashboard';
+import { getAssetTypeColor, getAssetTypeDisplayName } from '@/utils/dashboardHelpers';
 
-// DESIGN_SPECIFICATION_CHARTS.md에 명시된 목업 데이터
-const assetDistributionData = [
-  { name: '예금', value: 37.5, color: '#0099ff' },      // 메인 파란색
-  { name: '투자', value: 26.7, color: '#43b4ff' },      // 보조 파란색
-  { name: '부동산', value: 23.3, color: '#c7e8ff' },     // 밝은 파란색
-  { name: '가상자산', value: 12.5, color: '#0064ff' },  // 진한 파란색
-];
+interface AssetDistributionChartProps {
+  data: AssetDistributionData[];
+  totalAssetValue: number; // 총 자산 규모를 prop으로 받음
+}
 
 // 커스텀 범례(Legend) 컴포넌트
 const CustomLegend = (props: any) => {
@@ -26,13 +25,13 @@ const CustomLegend = (props: any) => {
       <ul className="flex flex-col justify-center space-y-3">
         {payload.map((entry: any, index: number) => (
           <li key={`item-${index}`} className="flex items-center">
-            {/* 색상 점 */}
-            <div className="w-3 h-3 rounded-full mr-3" style={{ backgroundColor: entry.color }} />
+            {/* 색상 점 - getAssetTypeColor 함수 사용 */}
+            <div className="w-3 h-3 rounded-full mr-3" style={{ backgroundColor: getAssetTypeColor(entry.name) }} />
             {/* 이름 및 퍼센트 */}
             <div className="flex flex-col">
-              {/* 수정: entry.payload.name 대신 entry.name을 직접 사용합니다. */}
-              <span className="text-sm text-gray-900">{entry.name}</span>
-              <span className="text-xs text-gray-500">{entry.value.toFixed(1)}%</span>
+              <span className="text-sm text-gray-900">{getAssetTypeDisplayName(entry.name)}</span>
+              {/* 평균 자산 표시 */}
+              <span className="text-xs text-gray-500">평균: {entry.average.toLocaleString()} ₩</span>
             </div>
           </li>
         ))}
@@ -41,13 +40,29 @@ const CustomLegend = (props: any) => {
 };
 
 
-export default function AssetDistributionChart() {
+export default function AssetDistributionChart({ data, totalAssetValue }: AssetDistributionChartProps) {
+  // 데이터가 없거나 로딩 중일 때 표시할 UI
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full flex justify-center items-center">
+        <p className="text-gray-500">데이터를 불러오는 중입니다...</p>
+      </div>
+    );
+  }
+
+  // 파이 차트 데이터 (비율 계산)
+  const pieChartData = data.map(item => ({
+    name: item.name,
+    value: item.value, // BigDecimal을 number로 변환 (recharts용)
+    average: item.average, // 평균도 number로 변환
+  }));
+
   return (
     <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full focus:outline-none">
       {/* 헤더 */}
       <div className="mb-6">
         <h3 className="font-semibold text-gray-900">자산 타입별 분포</h3>
-        <p className="text-sm text-gray-500">총 자산 120,000,000,000 ₩</p>
+        <p className="text-sm text-gray-500">총 자산 {totalAssetValue.toLocaleString()} ₩</p>
       </div>
 
       {/* 차트와 커스텀 범례 영역 */}
@@ -56,7 +71,7 @@ export default function AssetDistributionChart() {
         <ResponsiveContainer width="100%" height={250}>
           <PieChart>
             <Pie
-              data={assetDistributionData}
+              data={pieChartData}
               cx="50%"
               cy="50%"
               innerRadius={60}
@@ -65,12 +80,12 @@ export default function AssetDistributionChart() {
               dataKey="value"
               nameKey="name"
             >
-              {assetDistributionData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} stroke={entry.color} />
+              {pieChartData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={getAssetTypeColor(entry.name)} stroke={getAssetTypeColor(entry.name)} />
               ))}
             </Pie>
             <Tooltip
-              formatter={(value: number) => `${value.toFixed(1)}%`}
+              formatter={(value: number, name: string, props: any) => [`${value.toLocaleString()} ₩`, getAssetTypeDisplayName(name)]}
               contentStyle={{
                 backgroundColor: 'white',
                 border: '1px solid var(--gray-200)',
@@ -80,9 +95,9 @@ export default function AssetDistributionChart() {
             />
           </PieChart>
         </ResponsiveContainer>
-        {/* 커스텀 범례 (수정: payload에 원본 데이터를 직접 전달) */}
+        {/* 커스텀 범례 */}
         <div className="flex items-center justify-center">
-            <CustomLegend payload={assetDistributionData} />
+            <CustomLegend payload={pieChartData} />
         </div>
       </div>
     </div>

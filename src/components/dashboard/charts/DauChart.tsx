@@ -13,10 +13,22 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-// UserGrowthChart에서 사용하는 동일한 목업 데이터를 가져옵니다.
-import { userGrowthData } from './UserGrowthChart'; // userGrowthData는 AreaChart에서 내보내야 합니다.
+import { UserGrowthData } from '@/types/dashboard';
 
-export default function DauChart() {
+interface DauChartProps {
+  data: UserGrowthData[];
+}
+
+export default function DauChart({ data }: DauChartProps) {
+  // 데이터가 없거나 로딩 중일 때 표시할 UI
+  if (!data || data.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full flex justify-center items-center">
+        <p className="text-gray-500">데이터를 불러오는 중입니다...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full focus:outline-none">
       {/* 헤더 */}
@@ -35,7 +47,7 @@ export default function DauChart() {
       {/* 차트 */}
       <ResponsiveContainer width="100%" height={280}>
         <BarChart
-          data={userGrowthData} // UserGrowthChart와 동일한 데이터 사용
+          data={data} // UserGrowthChart와 동일한 데이터 사용
           margin={{
             top: 5,
             right: 30,
