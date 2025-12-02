@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import useUserStore from '@/store/user-store'; // Zustand 스토어 임포트
-import { User } from '@/store/user-store'; // User 인터페이스 임포트
+import { User } from '@/types/user'; // User 인터페이스 임포트
 
 export default function UserEditModal() {
   // Zustand 스토어에서 모달 상태와 사용자 정보를 가져오고, 모달 닫기 액션을 가져옵니다.
@@ -62,7 +62,6 @@ export default function UserEditModal() {
               value={editingUser.name}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties} // CSS 변수 사용
             />
           </div>
           {/* 사용자 ID 필드 (읽기 전용) */}
@@ -74,7 +73,6 @@ export default function UserEditModal() {
               value={editingUser.email}
               readOnly
               className="w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-xl focus:outline-none cursor-not-allowed"
-              style={{ '--tw-ring-color': 'var(--primary)' }}
             />
           </div>
           {/* 연령 필드 */}
@@ -86,7 +84,6 @@ export default function UserEditModal() {
               value={editingUser.age}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties}
             />
           </div>
           {/* 상태 필드 */}
@@ -97,7 +94,6 @@ export default function UserEditModal() {
               value={editingUser.status}
               onChange={handleChange}
               className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2"
-              style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties}
             >
               <option value="active">활성</option>
               <option value="inactive">비활성</option>

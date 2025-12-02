@@ -51,7 +51,6 @@ export default function ChatFilterSearch() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
-            style={{ '--tw-ring-color': 'var(--primary)' } as React.CSSProperties}
           />
         </div>
 

@@ -61,11 +61,15 @@ export default async function DashboardPage() {
 
       {/* 주요 지표 - StatCard 4개 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {statCardsData.map((data, index) => (
+        {statCardsData.map((data) => (
           <StatCard
             key={data.title}
             title={data.title}
-            value={formatCurrency(data.value)}
+            value={
+              data.title === '총 자산 규모'
+                ? formatCurrency(data.value)
+                : data.value.toLocaleString()
+            }
             change={formatPercentage(data.change)}
             changeType={data.changeType}
             description={data.description}
