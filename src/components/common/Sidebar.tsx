@@ -50,7 +50,7 @@ export default function Sidebar() {
   ];
 
   const utilityLinks = [
-    { href: '/settings', icon: Settings, label: '설정' },
+    { href: '/logs', icon: FileText, label: '로그 관리' },
   ];
 
   const footerLinks = [
