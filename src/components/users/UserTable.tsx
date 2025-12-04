@@ -19,7 +19,7 @@ export default function UserTable({ users, error }: UserTableProps) {
     if (!users) return []; // users가 null 또는 undefined일 경우 빈 배열 반환
     return users.filter(user => {
       const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchQuery.toLowerCase());
+        user.loginId.toLowerCase().includes(searchQuery.toLowerCase());
       const statusMap: { [key: string]: User['status'] | '전체' } = { '전체': '전체', '활성': 'active', '비활성': 'inactive' };
       const matchesStatus = filterStatus === '전체' || user.status === statusMap[filterStatus];
       return matchesSearch && matchesStatus;
@@ -66,7 +66,7 @@ export default function UserTable({ users, error }: UserTableProps) {
                 <td className="py-4 px-6">
                   <div className="flex flex-col">
                     <div className="font-medium text-gray-900">{user.name}</div>
-                    <div className="text-sm text-gray-500">{user.email}</div>
+                    <div className="text-sm text-gray-500">{user.loginId}</div>
                   </div>
                 </td>
                 <td className="py-4 px-6 text-gray-700">{user.age}세</td>

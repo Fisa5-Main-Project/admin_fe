@@ -5,17 +5,21 @@ import UserFilterSearch from '@/components/users/UserFilterSearch';
 import UserTable from '@/components/users/UserTable';
 import UserHeader from '@/components/users/UserHeader';
 import UserEditModal from '@/components/users/UserEditModal'; 
-import type { User } from '@/types/user'; // 중앙 관리되는 User 타입 import
+import type { User } from '@/types/user';
 import { getUsers } from '@/api/users';
+import { getStatCardsData } from '@/api/dashboard'; // 대시보드 API 임포트
+import type { StatCardData } from '@/types/dashboard';
 
 export default async function UsersPage() {
-  const usersRes = await getUsers();
-  
-  // --- 디버깅 로그 추가 ---
-  // console.log("사용자 API 응답:", JSON.stringify(usersRes, null, 2));
+  const [usersRes, statCardsRes] = await Promise.all([
+    getUsers(),
+    getStatCardsData(), // 통계 카드 데이터 API 호출
+  ]);
   
   const users: User[] = usersRes.isSuccess && usersRes.data ? usersRes.data : [];
   const usersError = usersRes.isSuccess ? null : usersRes.error;
+  
+  const statCards: StatCardData[] = statCardsRes.isSuccess && statCardsRes.data ? statCardsRes.data : [];
 
   return (
     <div className="flex flex-col gap-8">
@@ -23,7 +27,7 @@ export default async function UsersPage() {
       <UserHeader />
 
       {/* 2. 통계 카드 (StatCard 4개) */}
-      <UserStats users={users} />
+      <UserStats stats={statCards} />
 
       {/* 3. 필터 및 검색 영역 */}
       <UserFilterSearch />

@@ -39,7 +39,6 @@ export default function ChatLogClient({ initialUserSummaries, error }: ChatLogCl
       */}
       <ChatLogViewWrapper
         calculatedUserStats={initialUserSummaries}
-        mockChatLogs={[]} // 상세 대화 내역은 추후 별도 API 호출을 통해 가져올 예정입니다.
         error={error}
       />
 

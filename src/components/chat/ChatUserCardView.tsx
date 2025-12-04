@@ -64,8 +64,8 @@ export default function ChatUserCardView({ users, error }: ChatUserCardViewProps
               <div className="text-gray-900 font-medium">{user.chatCount}</div>
             </div>
             <div className="bg-gray-50 rounded-xl p-3">
-              <div className="text-xs text-gray-500 mb-1">마지막</div>
-              <div className="text-gray-900 font-medium text-xs">{user.lastChatTime.split(' ')[1]?.substring(0, 5) ?? ''}</div>
+              <div className="text-xs text-gray-500 mb-1">마지막 대화</div>
+              <div className="text-gray-900 font-medium text-xs">{user.lastChatTime}</div>
             </div>
           </div>
         </div>

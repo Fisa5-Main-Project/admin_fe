@@ -1,7 +1,7 @@
 // src/components/common/Sidebar.tsx
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -41,21 +41,28 @@ const SidebarLink: React.FC<SidebarLinkProps> = ({ href, icon: Icon, label, isAc
 
 export default function Sidebar() {
   const pathname = usePathname();
+  // 하이드레이션 오류 방지를 위한 클라이언트 측 렌더링 상태
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
 
   const primaryLinks = [
-    { href: '/dashboard', icon: LayoutDashboard, label: '대시보드' },
-    { href: '/users', icon: Users, label: '사용자 관리' },
-    { href: '/ai-analytics', icon: MessageSquare, label: 'AI 분석' },
-    { href: '/chat-logs', icon: FileText, label: '대화 로그' },
+    { href: '/admin/dashboard', icon: LayoutDashboard, label: '대시보드' },
+    { href: '/admin/users', icon: Users, label: '사용자 관리' },
+    { href: '/admin/ai-analytics', icon: MessageSquare, label: 'AI 분석' },
+    { href: '/admin/chat-logs', icon: FileText, label: '대화 로그' },
   ];
 
   const utilityLinks = [
-    { href: '/logs', icon: FileText, label: '로그 관리' },
+    { href: '/admin/logs', icon: FileText, label: '로그 관리' },
   ];
 
   const footerLinks = [
-    { href: '/help', icon: HelpCircle, label: '도움말' },
-    { href: '/logout', icon: LogOut, label: '로그아웃' },
+    { href: '/admin/help', icon: HelpCircle, label: '도움말' },
+    { href: '/admin/logout', icon: LogOut, label: '로그아웃' },
   ];
 
   return (
@@ -85,7 +92,7 @@ export default function Sidebar() {
             href={link.href}
             icon={link.icon}
             label={link.label}
-            isActive={pathname === link.href || (link.href === '/dashboard' && pathname === '/') }
+            isActive={isClient && (pathname === link.href || (link.href === '/admin/dashboard' && pathname === '/admin'))}
           />
         ))}
 
@@ -97,9 +104,9 @@ export default function Sidebar() {
               href={link.href}
               icon={link.icon}
               label={link.label}
-              isActive={pathname === link.href}
+              isActive={isClient && pathname === link.href}
             />
-          ))}
+))}
         </div>
       </nav>
 
@@ -111,7 +118,7 @@ export default function Sidebar() {
             href={link.href}
             icon={link.icon}
             label={link.label}
-            isActive={pathname === link.href}
+            isActive={isClient && pathname === link.href}
           />
         ))}
       </div>
