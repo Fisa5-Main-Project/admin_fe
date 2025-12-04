@@ -2,27 +2,14 @@
 'use client';
 
 import React from 'react';
-import ChatStatCards from '@/components/chat/ChatStatCards';
 import ChatFilterSearch from '@/components/chat/ChatFilterSearch';
 import ChatLogViewWrapper from '@/components/chat/ChatLogViewWrapper';
 import ChatDetailModal from '@/components/chat/ChatDetailModal';
 import ChatFilterModal from '@/components/chat/ChatFilterModal';
 import type { ChatUserStats } from '@/store/chat-logs-store'; // ChatUserStats는 스토어에서 정의된 것을 사용
 
-// 이 타입은 서버 컴포넌트(page.tsx)와 클라이언트 컴포넌트(ChatLogClient.tsx) 간의 데이터 계약 역할을 합니다.
-// ChatStatCards.tsx에 있는 CardData 인터페이스와 일치해야 합니다.
-interface StatCardData {
-  title: string;
-  value: string;
-  changeInfo: string;
-  changeColor: 'gray' | 'green' | 'red';
-  icon: 'MessageSquare' | 'User' | 'Clock' | 'Calendar'; // lucide-react 아이콘 이름
-  iconBgColor: string;
-  iconColor: string;
-}
-
 interface ChatLogClientProps {
-  initialStats: StatCardData[];
+  // initialStats prop 제거
   initialUserSummaries: ChatUserStats[];
 }
 
@@ -33,7 +20,7 @@ interface ChatLogClientProps {
  * @param {ChatLogClientProps} props - 서버에서 미리 가져온 초기 데이터 (통계 및 사용자 요약)
  * @returns {JSX.Element}
  */
-export default function ChatLogClient({ initialStats, initialUserSummaries }: ChatLogClientProps) {
+export default function ChatLogClient({ initialUserSummaries }: ChatLogClientProps) { // initialStats 제거
   return (
     <div className="flex flex-col gap-8">
       {/* 페이지 헤더 */}
@@ -42,8 +29,6 @@ export default function ChatLogClient({ initialStats, initialUserSummaries }: Ch
         <p className="text-sm text-gray-500">사용자별 AI 챗봇 대화 내역 조회</p>
       </div>
 
-      {/* 통계 카드 */}
-      <ChatStatCards stats={initialStats} />
 
       {/* 검색 및 필터 UI (내부 로직은 Zustand 스토어와 연동) */}
       <ChatFilterSearch />
