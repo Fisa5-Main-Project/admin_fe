@@ -5,29 +5,20 @@ import React, { useMemo } from 'react';
 import { Search, ThumbsUp, ThumbsDown } from 'lucide-react';
 import clsx from 'clsx';
 import useAIAnalyticsStore from '@/store/ai-analytics-store';
-
-// UserAIStats 인터페이스 (page.tsx에서 복사)
-interface UserAIStats {
-  userId: string;
-  userName: string;
-  chatCount: number;
-  apiRequests: number;
-  likes: number;
-  dislikes: number;
-  feedbackRatio: number;
-}
+import type { AiUserStat } from '@/types/ai';
 
 interface AIUsageTableProps {
-  users: UserAIStats[];
+  users: AiUserStat[];
+  error: boolean; // 에러 prop 추가
 }
 
-export default function AIUsageTable({ users }: AIUsageTableProps) {
+export default function AIUsageTable({ users, error }: AIUsageTableProps) { // error prop 받기
   const { searchQuery, setSearchQuery } = useAIAnalyticsStore();
 
   const filteredUsers = useMemo(() => {
     return users.filter(user =>
-      user.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.userId.includes(searchQuery)
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.login_id.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [users, searchQuery]);
 
@@ -46,7 +37,7 @@ export default function AIUsageTable({ users }: AIUsageTableProps) {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="사용자 검색..."
+              placeholder="이름 또는 ID로 검색..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 text-sm"
@@ -70,40 +61,50 @@ export default function AIUsageTable({ users }: AIUsageTableProps) {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.userId} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
-                <td className="py-4 px-6 text-gray-600">#{user.userId}</td>
-                <td className="py-4 px-6 text-gray-900">{user.userName}</td>
-                <td className="py-4 px-6 text-right text-gray-900">{user.chatCount.toLocaleString()}</td>
-                <td className="py-4 px-6 text-right text-gray-900">{user.apiRequests.toLocaleString()}</td>
-                <td className="py-4 px-6 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <ThumbsUp className="w-4 h-4 text-green-600" />
-                    <span className="text-gray-900">{user.likes}</span>
-                  </div>
-                </td>
-                <td className="py-4 px-6 text-center">
-                  <div className="flex items-center justify-center gap-2">
-                    <ThumbsDown className="w-4 h-4 text-red-600" />
-                    <span className="text-gray-900">{user.dislikes}</span>
-                  </div>
-                </td>
-                <td className="py-4 px-6 text-center">
-                  <span
-                    className={clsx(
-                      'inline-flex px-3 py-1 rounded-full text-xs font-medium',
-                      user.feedbackRatio >= 85
-                        ? 'bg-green-100 text-green-700'
-                        : user.feedbackRatio >= 75
-                        ? 'bg-yellow-100 text-yellow-700'
-                        : 'bg-red-100 text-red-700'
-                    )}
-                  >
-                    {user.feedbackRatio}%
-                  </span>
-                </td>
+            {error ? (
+              <tr>
+                <td colSpan={7} className="text-center py-8 text-red-500">데이터를 불러오는 데 실패했습니다.</td>
               </tr>
-            ))}
+            ) : filteredUsers.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="text-center py-8 text-gray-500">데이터가 없습니다.</td>
+              </tr>
+            ) : (
+              filteredUsers.map((user) => (
+                <tr key={user.user_id} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
+                  <td className="py-4 px-6 text-gray-600">#{user.login_id}</td>
+                  <td className="py-4 px-6 text-gray-900">{user.name}</td>
+                  <td className="py-4 px-6 text-right text-gray-900">{user.chat_count.toLocaleString()}</td>
+                  <td className="py-4 px-6 text-right text-gray-900">{user.api_count.toLocaleString()}</td>
+                  <td className="py-4 px-6 text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <ThumbsUp className="w-4 h-4 text-green-600" />
+                      <span className="text-gray-900">{user.likes}</span>
+                    </div>
+                  </td>
+                  <td className="py-4 px-6 text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <ThumbsDown className="w-4 h-4 text-red-600" />
+                      <span className="text-gray-900">{user.dislikes}</span>
+                    </div>
+                  </td>
+                  <td className="py-4 px-6 text-center">
+                    <span
+                      className={clsx(
+                        'inline-flex px-3 py-1 rounded-full text-xs font-medium',
+                        user.satisfaction >= 85
+                          ? 'bg-green-100 text-green-700'
+                          : user.satisfaction >= 75
+                          ? 'bg-yellow-100 text-yellow-700'
+                          : 'bg-red-100 text-red-700'
+                      )}
+                    >
+                      {user.satisfaction.toFixed(1)}%
+                    </span>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

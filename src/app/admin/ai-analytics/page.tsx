@@ -4,15 +4,16 @@ import AIStatCards from '@/components/ai/AIStatCards';
 import ConversationTrendChart from '@/components/ai/charts/ConversationTrendChart';
 import FeedbackDistributionChart from '@/components/ai/charts/FeedbackDistributionChart';
 import AIUsageTable from '@/components/ai/AIUsageTable';
-import { getAiOverviewData, getAiTrendData, getAiFeedbackData } from '@/api/ai'; // getAiFeedbackData 임포트
-import type { AiOverviewData, AiTrendData, AiFeedbackData } from '@/types/ai'; // AiFeedbackData 타입 임포트
+import { getAiOverviewData, getAiTrendData, getAiFeedbackData, getAiUserStats } from '@/api/ai'; // getAiUserStats 임포트
+import type { AiOverviewData, AiTrendData, AiFeedbackData, AiUserStat, AiUserStatsResponse } from '@/types/ai'; // AiUserStat, AiUserStatsResponse 타입 임포트
 
 export default async function AIAnalyticsPage() {
   // 서버 컴포넌트에서 직접 데이터 페칭
-  const [aiOverviewRes, aiTrendRes, aiFeedbackRes] = await Promise.all([
+  const [aiOverviewRes, aiTrendRes, aiFeedbackRes, aiUserStatsRes] = await Promise.all([ // getAiUserStats 추가
     getAiOverviewData(),
     getAiTrendData(),
     getAiFeedbackData(),
+    getAiUserStats(), // 사용자별 AI 사용 통계 API 호출
   ]);
 
   // API 응답 처리: isSuccess가 true이면 data를, 아니면 기본값 사용
@@ -33,13 +34,18 @@ export default async function AIAnalyticsPage() {
     ? aiFeedbackRes.data
     : { like: 0, dislike: 0 };
 
+  const aiUserStatsData: AiUserStat[] = aiUserStatsRes.isSuccess // 사용자별 AI 통계 데이터 처리
+    ? aiUserStatsRes.data.users
+    : [];
+  const errorFetchingUserStats: boolean = !aiUserStatsRes.isSuccess; // 에러 상태 플래그 추가
+
 
   // 통계 카드 데이터 구성 (API 응답 기반)
   const statCardsData = [
     {
       title: '총 대화 건수',
       value: aiOverviewData.total_chats.toLocaleString(),
-      changeInfo: '+12.5% vs last month', // 명세서에 change 정보가 없으므로 임의값 유지
+      changeInfo: '+12.5% vs last month',
       changeColor: 'green' as const,
       icon: 'MessageSquare' as const,
       iconBgColor: 'var(--light)',
@@ -48,7 +54,7 @@ export default async function AIAnalyticsPage() {
     {
       title: '총 API 요청',
       value: aiOverviewData.total_api_calls.toLocaleString(),
-      changeInfo: '+18.3% vs last month', // 명세서에 change 정보가 없으므로 임의값 유지
+      changeInfo: '+18.3% vs last month',
       changeColor: 'green' as const,
       icon: 'Activity' as const,
       iconBgColor: 'var(--info-bg)',
@@ -57,7 +63,7 @@ export default async function AIAnalyticsPage() {
     {
       title: '평균 만족도',
       value: `${aiOverviewData.satisfaction_rate.toFixed(1)}%`,
-      changeInfo: '+2.3% vs last month', // 명세서에 change 정보가 없으므로 임의값 유지
+      changeInfo: '+2.3% vs last month',
       changeColor: 'green' as const,
       icon: 'ThumbsUp' as const,
       iconBgColor: 'var(--success-bg)',
@@ -66,7 +72,7 @@ export default async function AIAnalyticsPage() {
     {
       title: '활성 사용자',
       value: aiOverviewData.active_users.toLocaleString(),
-      changeInfo: '이번 달', // 명세서에 change 정보가 없으므로 임의값 유지
+      changeInfo: '이번 달',
       changeColor: 'gray' as const,
       icon: 'TrendingUp' as const,
       iconBgColor: 'var(--warning-bg)',
@@ -92,8 +98,7 @@ export default async function AIAnalyticsPage() {
       </div>
 
       {/* 4. 사용자별 통계 테이블 */}
-      {/* AIUsageTable에 필요한 실제 데이터가 아직 없으므로 임시로 빈 배열 전달 */}
-      <AIUsageTable users={[]} />
+      <AIUsageTable users={aiUserStatsData} error={errorFetchingUserStats} />
     </div>
   );
 }

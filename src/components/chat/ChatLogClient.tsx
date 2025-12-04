@@ -6,21 +6,22 @@ import ChatFilterSearch from '@/components/chat/ChatFilterSearch';
 import ChatLogViewWrapper from '@/components/chat/ChatLogViewWrapper';
 import ChatDetailModal from '@/components/chat/ChatDetailModal';
 import ChatFilterModal from '@/components/chat/ChatFilterModal';
-import type { ChatUserStats } from '@/store/chat-logs-store'; // ChatUserStats는 스토어에서 정의된 것을 사용
+import type { ChatUserStats } from '@/store/chat-logs-store';
+import type { ApiError } from '@/types/api';
 
 interface ChatLogClientProps {
-  // initialStats prop 제거
   initialUserSummaries: ChatUserStats[];
+  error: ApiError | null;
 }
 
 /**
  * 챗봇 대화 로그 페이지의 클라이언트 측 UI를 렌더링하고 상호작용을 처리하는 컴포넌트입니다.
  * 서버 컴포넌트로부터 초기 데이터를 props로 받아 UI를 구성합니다.
  * 모달, 필터링 등 모든 동적 사용자 인터랙션은 Zustand 스토어를 통해 관리됩니다.
- * @param {ChatLogClientProps} props - 서버에서 미리 가져온 초기 데이터 (통계 및 사용자 요약)
+ * @param {ChatLogClientProps} props - 서버에서 미리 가져온 초기 데이터 (사용자 요약 및 에러 상태)
  * @returns {JSX.Element}
  */
-export default function ChatLogClient({ initialUserSummaries }: ChatLogClientProps) { // initialStats 제거
+export default function ChatLogClient({ initialUserSummaries, error }: ChatLogClientProps) {
   return (
     <div className="flex flex-col gap-8">
       {/* 페이지 헤더 */}
@@ -34,13 +35,12 @@ export default function ChatLogClient({ initialUserSummaries }: ChatLogClientPro
       <ChatFilterSearch />
 
       {/* 
-        ChatLogViewWrapper에는 서버에서 가져온 초기 사용자 목록을 전달합니다.
-        'mockChatLogs' prop은 상세 대화 내역이므로, 해당 기능이 구현되기 전까지는 빈 배열을 전달하여
-        초기 렌더링 시 오류를 방지하고, 상세 뷰가 비어있음을 명확히 합니다.
+        ChatLogViewWrapper에는 서버에서 가져온 초기 사용자 목록과 에러 상태를 전달합니다.
       */}
       <ChatLogViewWrapper
         calculatedUserStats={initialUserSummaries}
         mockChatLogs={[]} // 상세 대화 내역은 추후 별도 API 호출을 통해 가져올 예정입니다.
+        error={error}
       />
 
       {/* 모달 컴포넌트들 (Zustand 스토어에 의해 전역적으로 상태가 관리됨) */}

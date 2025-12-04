@@ -80,3 +80,29 @@ export interface ChatHistoryResponse {
   page: number;               // 현재 페이지
   limit: number;              // 페이지당 메시지 수
 }
+
+/**
+ * [AI] 사용자별 AI 사용 통계 개별 항목 데이터 타입
+ * GET /api/v1/admin/ai/users
+ */
+export interface AiUserStat {
+  user_id: number;
+  name: string;
+  login_id: string;
+  chat_count: number;
+  api_count: number;
+  likes: number;
+  dislikes: number;
+  satisfaction: number; // 만족도 (예: 56.2)
+}
+
+/**
+ * [AI] 사용자별 AI 사용 통계 조회 API 응답 데이터 타입
+ * GET /api/v1/admin/ai/users
+ */
+export interface AiUserStatsResponse {
+  users: AiUserStat[];
+  total: number;
+  page: number;
+  limit: number;
+}

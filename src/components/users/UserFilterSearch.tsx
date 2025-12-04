@@ -42,9 +42,6 @@ export default function UserFilterSearch() {
             {tab}
           </button>
         ))}
-        <button className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors border border-gray-200">
-          <SlidersHorizontal className="w-5 h-5 text-gray-600" />
-        </button>
       </div>
     </div>
   );

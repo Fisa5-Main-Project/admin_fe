@@ -1,8 +1,8 @@
 // src/api/ai.ts
-import { aiApiClient } from './index'; // aiApiClient 임포트
+import { aiApiClient } from './index';
 import { handleApiCall } from './apiHandler';
 import type { ApiResponse } from '@/types/api';
-import type { AiOverviewData, AiTrendData, AiFeedbackData, ChatLogsResponse, ChatHistoryResponse } from '@/types/ai';
+import type { AiOverviewData, AiTrendData, AiFeedbackData, ChatLogsResponse, ChatHistoryResponse, AiUserStatsResponse } from '@/types/ai';
 
 /**
  * [AI] AI 총 대화 건수 및 개요 통계 API
@@ -59,4 +59,19 @@ export const getChatHistoryByUserId = async (
   return handleApiCall(() => aiApiClient.get(`/admin/logs/${userId}`, {
     params: { page, limit }
   }), `사용자 ID ${userId}에 대한 대화 상세 내역을 불러오는 데 실패했습니다.`);
+};
+
+/**
+ * [AI] 사용자별 AI 사용 통계 조회 API
+ * GET /api/v1/admin/ai/users
+ * 사용자별 AI 사용 통계 목록을 페이지네이션 및 검색 기능과 함께 조회합니다.
+ */
+export const getAiUserStats = async (
+  page: number = 1,
+  limit: number = 10,
+  search: string = '',
+): Promise<ApiResponse<AiUserStatsResponse>> => {
+  return handleApiCall(() => aiApiClient.get('/admin/ai/users', {
+    params: { page, limit, search }
+  }), '사용자별 AI 사용 통계를 불러오는 데 실패했습니다.');
 };

@@ -15,7 +15,6 @@ export default function DashboardHeader() {
     }, []);
 
     return (
-        // 헤더 컨테이너: 아이템을 양쪽 끝으로 정렬하고 하단 여백을 줍니다.
         <div className="flex items-center justify-between mb-8">
             {/* 좌측 영역: 날짜 선택 버튼 */}
             <div className="flex items-center gap-4">
@@ -35,8 +34,6 @@ export default function DashboardHeader() {
                 {/* 알림 버튼 (새 알림 표시를 위한 빨간 점 포함) */}
                 <button className="relative w-10 h-10 bg-white rounded-xl flex items-center justify-center hover:bg-gray-50 transition-all border border-gray-200">
                     <Bell className="w-5 h-5 text-gray-600" />
-                    {/* 알림 배지 (빨간 점) */}
-                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
                 </button>
 
                 {/* 프로필 정보 */}
@@ -46,7 +43,6 @@ export default function DashboardHeader() {
                         className="w-8 h-8 rounded-full"
                         style={{ background: 'linear-gradient(to bottom right, #0099ff, #0064ff)' }}
                     >
-                        {/* 아바타 내용을 추가할 수 있습니다. (예: <span className="text-white text-sm">A</span>) */}
                     </div>
                     {/* 사용자 이름 및 이메일 */}
                     <div>
