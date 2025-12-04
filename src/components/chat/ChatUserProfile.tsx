@@ -34,19 +34,15 @@ export default function ChatUserProfile({ userStats }: ChatUserProfileProps) {
           <h2 className="text-xl font-semibold text-gray-900">{userStats.name}</h2>
           <p className="text-sm text-gray-500">User ID: {userStats.id}</p>
         </div>
-        {/* 통계 3개 */}
-        <div className="grid grid-cols-3 gap-4 text-center">
+        {/* 통계 2개 (총 대화, 마지막 대화) */}
+        <div className="grid grid-cols-2 gap-4 text-center">
           <div>
             <div className="text-xs text-gray-500 mb-1">총 대화</div>
             <div className="text-lg font-medium text-gray-900">{userStats.chatCount}건</div>
           </div>
           <div>
-            <div className="text-xs text-gray-500 mb-1">평균 응답</div>
-            <div className="text-lg font-medium text-gray-900">{userStats.avgDuration.toFixed(1)}초</div>
-          </div>
-          <div>
             <div className="text-xs text-gray-500 mb-1">마지막 대화</div>
-            <div className="text-lg font-medium text-gray-900 text-xs">{userStats.lastChatTime.split(' ')[0]}</div>
+            <div className="text-lg font-medium text-gray-900 text-xs">{userStats.lastChatTime}</div>
           </div>
         </div>
       </div>

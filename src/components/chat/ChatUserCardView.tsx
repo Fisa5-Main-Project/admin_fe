@@ -39,14 +39,10 @@ export default function ChatUserCardView({ users }: ChatUserCardViewProps) {
             </div>
           </div>
           {/* 하단: 통계 그리드 */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 gap-3"> {/* 3컬럼에서 2컬럼으로 변경 */}
             <div className="bg-gray-50 rounded-xl p-3">
               <div className="text-xs text-gray-500 mb-1">대화 건수</div>
               <div className="text-gray-900 font-medium">{user.chatCount}</div>
-            </div>
-            <div className="bg-gray-50 rounded-xl p-3">
-              <div className="text-xs text-gray-500 mb-1">평균 응답</div>
-              <div className="text-gray-900 font-medium">{user.avgDuration.toFixed(1)}초</div>
             </div>
             <div className="bg-gray-50 rounded-xl p-3">
               <div className="text-xs text-gray-500 mb-1">마지막</div>

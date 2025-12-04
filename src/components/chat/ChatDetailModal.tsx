@@ -8,8 +8,25 @@ import useChatLogsStore from '@/store/chat-logs-store';
 export default function ChatDetailModal() {
   const { selectedLog, closeDetailModal } = useChatLogsStore();
 
-  // 모달이 열려있지 않거나 선택된 로그가 없으면 아무것도 렌더링하지 않습니다.
+  // 모달이 열려있지 않거나 선택된 로그 데이터가 없으면 아무것도 렌더링하지 않습니다.
   if (!selectedLog) return null;
+
+  const { userName, userId, turn } = selectedLog;
+  const { userMessage, assistantMessage } = turn;
+
+  const formattedTimestamp = new Date(userMessage.timestamp).toLocaleString('ko-KR', {
+    hour12: false,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+
+  const duration = assistantMessage
+    ? ((new Date(assistantMessage.timestamp).getTime() - new Date(userMessage.timestamp).getTime()) / 1000).toFixed(1)
+    : null;
 
   return (
     // 오버레이
@@ -33,42 +50,45 @@ export default function ChatDetailModal() {
           </button>
         </div>
 
-        {/* 정보 그리드 */}
+        {/* 정보 그리드 (원래 디자인 복원) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div className="bg-gray-50 rounded-xl p-4">
             <div className="text-xs text-gray-500 mb-1">사용자</div>
-            <div className="text-sm font-medium text-gray-900">{selectedLog.userName}</div>
+            <div className="text-sm font-semibold text-gray-900">{userName}</div>
           </div>
           <div className="bg-gray-50 rounded-xl p-4">
             <div className="text-xs text-gray-500 mb-1">User ID</div>
-            <div className="text-sm font-medium text-gray-900">#{selectedLog.userId}</div>
+            <div className="text-sm font-semibold text-gray-900">#{userId}</div>
           </div>
           <div className="bg-gray-50 rounded-xl p-4">
             <div className="text-xs text-gray-500 mb-1">시간</div>
-            <div className="text-sm font-medium text-gray-900">{selectedLog.timestamp}</div>
+            <div className="text-sm font-semibold text-gray-900">{formattedTimestamp}</div>
           </div>
           <div className="bg-gray-50 rounded-xl p-4">
             <div className="text-xs text-gray-500 mb-1">응답 시간</div>
-            <div className="text-sm font-medium text-gray-900">{selectedLog.duration}초</div>
+            <div className="text-sm font-semibold text-gray-900">{duration ? `${duration}초` : 'N/A'}</div>
           </div>
         </div>
 
-        {/* 메시지 영역 */}
+        {/* 메시지 영역 (원래 디자인 복원) */}
         <div className="space-y-4">
           <div>
             <div className="text-sm text-gray-600 mb-2">사용자 메시지</div>
             <div className="bg-blue-50 rounded-xl p-4 text-gray-900">
-              {selectedLog.userMessage}
+              {userMessage.content}
             </div>
           </div>
-          <div>
-            <div className="text-sm text-gray-600 mb-2">AI 챗봇 응답</div>
-            <div className="rounded-xl p-4 text-gray-900" style={{ backgroundColor: '#f1f3f5' }}>
-              {selectedLog.botResponse}
+          {assistantMessage && (
+            <div>
+              <div className="text-sm text-gray-600 mb-2">AI 챗봇 응답</div>
+              <div className="rounded-xl p-4 text-gray-900" style={{ backgroundColor: '#f1f3f5' }}>
+                {assistantMessage.content}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
