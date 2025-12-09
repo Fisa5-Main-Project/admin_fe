@@ -50,6 +50,35 @@ export default async function DashboardPage() {
   const averageAssetByAgeData: AssetByAgeData[] = averageAssetByAgeRes.isSuccess ? averageAssetByAgeRes.data : [];
   const detailedAssetData: DetailedAssetData[] = detailedAssetRes.isSuccess ? detailedAssetRes.data : [];
 
+  // 1. 자산 타입별 순서 정의 (AssetType enum 순서와 동일)
+  const assetTypeOrder = [
+    'CURRENT',        // 입출금
+    'SAVING',         // 적금
+    'INVEST',         // 투자
+    'PENSION',        // 연금
+    'AUTOMOBILE',     // 자동차
+    'REAL_ESTATE',    // 부동산
+    'LOAN'            // 대출
+  ];
+
+  // 2. 자산 분포 데이터 정렬
+  const sortedAssetDistributionData = [...assetDistributionData].sort((a, b) => {
+    return assetTypeOrder.indexOf(a.name) - assetTypeOrder.indexOf(b.name);
+  });
+
+  // 3. 상세 자산 데이터 정렬 (자산 분포와 동일한 순서)
+  const sortedDetailedAssetData = [...detailedAssetData].sort((a, b) => {
+    return assetTypeOrder.indexOf(a.type) - assetTypeOrder.indexOf(b.type);
+  });
+
+  // 4. 연령대별 순서 정의
+  const ageGroupOrder = ['20대 이하', '30대', '40대', '50대', '60대', '70대 이상'];
+
+  // 5. 연령대별 평균 자산 데이터 정렬
+  const sortedAverageAssetByAgeData = [...averageAssetByAgeData].sort((a, b) => {
+    return ageGroupOrder.indexOf(a.ageGroup) - ageGroupOrder.indexOf(b.ageGroup);
+  });
+
   // 총 자산 규모를 AssetDistributionChart에 전달하기 위해 찾음
   const totalAssetCard = statCardsData.find(card => card.title === '총 자산 규모');
   const totalAssetValue = totalAssetCard ? totalAssetCard.value : 0;
@@ -61,11 +90,15 @@ export default async function DashboardPage() {
 
       {/* 주요 지표 - StatCard 4개 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {statCardsData.map((data, index) => (
+        {statCardsData.map((data) => (
           <StatCard
             key={data.title}
             title={data.title}
-            value={formatCurrency(data.value)}
+            value={
+              data.title === '총 자산 규모'
+                ? formatCurrency(data.value)
+                : data.value.toLocaleString()
+            }
             change={formatPercentage(data.change)}
             changeType={data.changeType}
             description={data.description}
@@ -81,12 +114,12 @@ export default async function DashboardPage() {
 
       {/* 차트 영역 (행 2): 자산 타입별 분포 및 연령대별 평균 자산 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <AssetDistributionChart data={assetDistributionData} totalAssetValue={totalAssetValue} />
-        <AverageAssetByAgeChart data={averageAssetByAgeData} />
+        <AssetDistributionChart data={sortedAssetDistributionData} totalAssetValue={totalAssetValue} />
+        <AverageAssetByAgeChart data={sortedAverageAssetByAgeData} />
       </div>
 
       {/* 자산 타입별 상세 통계 테이블 */}
-      <DetailedAssetTable data={detailedAssetData} />
+      <DetailedAssetTable data={sortedDetailedAssetData} />
     </div>
   );
 }

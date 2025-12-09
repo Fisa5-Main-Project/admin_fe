@@ -12,18 +12,26 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import type { AiTrend } from '@/types/ai'; // AiTrend 타입 임포트
 
-// DESIGN_SPECIFICATION_AI.md 기반 목업 데이터
-const chatTrendData = [
-  { month: 'Jun', chats: 1200, apis: 7500 },
-  { month: 'Jul', chats: 1450, apis: 8900 },
-  { month: 'Aug', chats: 1680, apis: 10200 },
-  { month: 'Sep', chats: 1890, apis: 11500 },
-  { month: 'Oct', chats: 2100, apis: 12800 },
-  { month: 'Nov', chats: 2380, apis: 14300 },
-];
+// 월 이름을 변환하기 위한 헬퍼 함수
+const formatMonth = (dateString: string) => {
+  const date = new Date(`${dateString}-01`);
+  return date.toLocaleString('en-US', { month: 'short' });
+};
 
-export default function ConversationTrendChart() {
+interface ConversationTrendChartProps {
+  data: AiTrend[];
+}
+
+export default function ConversationTrendChart({ data }: ConversationTrendChartProps) {
+  // API 데이터를 Recharts에 맞게 변환
+  const chartData = data.map(item => ({
+    month: formatMonth(item.date),
+    chats: item.user_chats,
+    apis: item.api_calls,
+  }));
+
   return (
     <div className="bg-white rounded-2xl p-6 border border-gray-200 h-full">
       <div className="mb-6">
@@ -31,7 +39,7 @@ export default function ConversationTrendChart() {
         <p className="text-sm text-gray-500">월별 사용량 통계</p>
       </div>
       <ResponsiveContainer width="100%" height={280}>
-        <LineChart data={chatTrendData}>
+        <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--gray-200)" />
           <XAxis dataKey="month" stroke="var(--gray-400)" fontSize="var(--text-xs)" />
           <YAxis stroke="var(--gray-400)" fontSize="var(--text-xs)" />

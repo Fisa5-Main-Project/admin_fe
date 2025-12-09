@@ -15,3 +15,16 @@ export const apiClient = axios.create({
   headers: { "Content-Type": "application/json" },
   withCredentials: true, // 자격 증명(쿠키 등)을 포함하여 요청
 });
+
+// AI 백엔드를 위한 별도의 axios 인스턴스를 생성합니다.
+const AI_BASE_URL = process.env.NEXT_PUBLIC_AI_BASE_URL;
+
+if (!AI_BASE_URL) {
+  throw new Error('환경 변수 NEXT_PUBLIC_AI_BASE_URL이 설정되지 않았습니다.');
+}
+
+export const aiApiClient = axios.create({
+  baseURL: AI_BASE_URL,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true, // 자격 증명(쿠키 등)을 포함하여 요청
+});

@@ -1,7 +1,9 @@
+// src/types/api.ts
+
 /**
  * 실패 시 응답에 포함될 error 객체 타입
  */
-interface ApiError {
+export interface ApiError {
     code: string;
     message: string;
 }

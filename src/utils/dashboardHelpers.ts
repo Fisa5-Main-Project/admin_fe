@@ -1,16 +1,16 @@
 // src/utils/dashboardHelpers.ts
 
-// 자산 타입에 따른 색상 매핑 함수
+// 자산 타입에 따른 색상 매핑 함수 (새 컬러 카트 적용)
 export const getAssetTypeColor = (type: string): string => {
   switch (type) {
-    case 'CURRENT': return '#0099ff';     // 입출금 (Primary)
-    case 'SAVING': return '#43b4ff';      // 적금 (Secondary)
-    case 'INVEST': return '#c7e8ff';      // 투자 (Light)
-    case 'PENSION': return '#0064ff';     // 연금 (Primary Dark)
-    case 'AUTOMOBILE': return '#DBEAFE';  // 자동차 (Info BG)
-    case 'REAL_ESTATE': return '#EF4444'; // 부동산 (Red-500)
-    case 'LOAN': return '#F59E0B';        // 대출 (Warning)
-    default: return '#adb5bd';            // 기타 (Gray)
+    case 'CURRENT': return '#0099ff';     // 입출금
+    case 'SAVING': return '#716DE8';      // 적금
+    case 'INVEST': return '#6D90E8';      // 투자
+    case 'PENSION': return '#6DDEE8';     // 연금
+    case 'AUTOMOBILE': return '#996DE8';  // 자동차
+    case 'LOAN': return '#CCD5EB';        // 대출
+    case 'REAL_ESTATE': return '#E371A3'; // 부동산
+    default: return '#68E26C';            // 기타
   }
 };
 

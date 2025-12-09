@@ -1,55 +1,32 @@
 // src/components/users/UserStats.tsx
 import React from 'react';
 import StatCard from '@/components/common/StatCard';
-import type { User } from '@/types/user';
+import type { StatCardData } from '@/types/dashboard'; // 대시보드 타입 임포트
+import { formatCurrency, formatPercentage } from '@/utils/dashboardHelpers';
 
 interface UserStatsProps {
-  users: User[];
+  stats: StatCardData[]; // props를 StatCardData 배열로 변경
 }
 
-export default function UserStats({ users }: UserStatsProps) {
-  const totalUsers = users.length;
-  const activeUsers = users.filter(user => user.status === 'active').length;
-  const inactiveUsers = totalUsers - activeUsers;
-  const totalAssets = users.reduce((acc, user) => acc + (user.totalAsset ?? 0), 0);
-  const averageAsset = totalUsers > 0 ? Math.round(totalAssets / totalUsers) : 0;
+export default function UserStats({ stats }: UserStatsProps) {
+  // 클라이언트 측 계산 로직 제거
 
-  const stats = [
-    {
-      title: '전체 사용자',
-      value: totalUsers.toLocaleString(),
-      description: '총 가입자',
-      descriptionColor: 'gray' as const,
-    },
-    {
-      title: '활성 사용자',
-      value: activeUsers.toLocaleString(),
-      description: 'Active',
-      descriptionColor: 'green' as const,
-    },
-    {
-      title: '비활성 사용자',
-      value: inactiveUsers.toLocaleString(),
-      description: 'Inactive',
-      descriptionColor: 'red' as const,
-    },
-    {
-      title: '평균 자산',
-      value: `${averageAsset.toLocaleString()} ₩`,
-      description: '사용자당',
-      descriptionColor: 'gray' as const,
-    },
-  ];
-
+  // API에서 받은 데이터를 직접 사용
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-      {stats.map((stat, index) => (
+      {stats.map((stat) => (
         <StatCard
           key={stat.title}
           title={stat.title}
-          value={stat.value}
+          value={
+            // 대시보드와 동일한 포맷팅 로직 적용
+            stat.title === '총 자산 규모'
+              ? formatCurrency(stat.value)
+              : stat.value.toLocaleString()
+          }
+          change={formatPercentage(stat.change)}
+          changeType={stat.changeType}
           description={stat.description}
-          descriptionColor={stat.descriptionColor}
         />
       ))}
     </div>

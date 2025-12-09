@@ -19,7 +19,7 @@ export default function UserFilterSearch() {
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         <input
           type="text"
-          placeholder="사용자 이름 또는 이메일로 검색..."
+          placeholder="사용자 이름 또는 ID로 검색..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
@@ -42,9 +42,6 @@ export default function UserFilterSearch() {
             {tab}
           </button>
         ))}
-        <button className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center hover:bg-gray-100 transition-colors border border-gray-200">
-          <SlidersHorizontal className="w-5 h-5 text-gray-600" />
-        </button>
       </div>
     </div>
   );
