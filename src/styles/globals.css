@@ -2,15 +2,94 @@
 
 /* --- CSS 변수 및 기본 스타일 --- */
 body {
-    background-color: #ffffff; /* 흰색 배경 */
-    color: #212529; /* neutral-900 */
+    background-color: var(--background);
+    color: var(--gray-900);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* === 디자인 토큰 (최소) === */
+/* =================================
+   디자인 시스템 토큰 (CSS 변수)
+   ================================= */
+
 :root {
-    --border-color: #e5e7eb; /* 흐릿한 테두리 */
-    --brand: #4e07ff; /* 액션 버튼 색 */
-    --radius-ctrl: 4px; /* ✅ 버튼/인풋 라운드 통일 */
+    /* 주요 색상 */
+    --primary: #0099ff;
+    --primary-dark: #0064ff;
+    --secondary: #43b4ff;
+    --light: #c7e8ff;
+    --background: #F5F6FA;
+
+    /* 그레이 스케일 */
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-300: #D1D5DB;
+    --gray-400: #9CA3AF;
+    --gray-500: #6B7280;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+    --gray-900: #111827;
+
+    /* 상태 색상 */
+    --success: #10B981;
+    --success-bg: #D1FAE5;
+    --warning: #F59E0B;
+    --warning-bg: #FEF3C7;
+    --error: #EF4444;
+    --error-bg: #FEE2E2;
+    --info: #3B82F6;
+    --info-bg: #DBEAFE;
+
+    /* 폰트 크기 (원래 명세 기준) */
+    --text-xs: 12px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-lg: 18px;
+    --text-xl: 20px;
+    --text-2xl: 32px;
+
+    /* 폰트 굵기 */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+
+    /* 모서리 */
+    --rounded-lg: 8px;
+    --rounded-xl: 12px;
+    --rounded-2xl: 16px;
+    --rounded-3xl: 24px;
+    --rounded-full: 9999px;
+
+    /* 그림자 */
+    --shadow-custom-blue: 0 10px 25px rgba(0, 153, 255, 0.2);
+}
+
+/* === 기본 타이포그래피 (globals.css에서 직접 정의) === */
+/* h1-h4 태그는 전역 스타일 대신, 각 컴포넌트에서 유틸리티 클래스로 크기를 명시적으로 지정합니다. */
+p {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+}
+
+button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+}
+
+label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+}
+
+input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
 }
 
 /* 통신사 트리거(드롭다운 버튼) — 인풋과 동일 톤 */
@@ -18,3 +97,33 @@ body {
     @apply flex items-center justify-between;
 }
 
+/* 사이드바 활성 링크 스타일 */
+.sidebar-link-active {
+    color: white;
+    background: linear-gradient(to right, #0099ff, #0064ff);
+    box-shadow: 0 10px 25px rgba(0, 153, 255, 0.2);
+}
+
+/* StatCard 배지 스타일 */
+.badge-increase {
+    background-color: #D1FAE5;
+    /* 명세서의 bg-green-100에 해당 */
+    color: #059669;
+    /* 명세서의 text-green-700에 해당 */
+}
+
+.badge-decrease {
+    background-color: #FEE2E2;
+    /* 명세서의 bg-red-100에 해당 */
+    color: #DC2626;
+    /* 명세서의 text-red-600에 해당 */
+}
+
+/* Recharts 차트 포커스 테두리 강제 제거 */
+.recharts-wrapper:focus-visible,
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus,
+.recharts-wrapper *:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
