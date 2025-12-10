@@ -63,7 +63,7 @@ export const getChatHistoryByUserId = async (
 
 /**
  * [AI] 사용자별 AI 사용 통계 조회 API
- * GET /api/v1/admin/ai/users
+ * GET /api/v1/admin/users
  * 사용자별 AI 사용 통계 목록을 페이지네이션 및 검색 기능과 함께 조회합니다.
  */
 export const getAiUserStats = async (
@@ -71,7 +71,7 @@ export const getAiUserStats = async (
   limit: number = 10,
   search: string = '',
 ): Promise<ApiResponse<AiUserStatsResponse>> => {
-  return handleApiCall(() => aiApiClient.get('/admin/ai/users', {
+  return handleApiCall(() => aiApiClient.get('/admin/users', {
     params: { page, limit, search }
   }), '사용자별 AI 사용 통계를 불러오는 데 실패했습니다.');
 };

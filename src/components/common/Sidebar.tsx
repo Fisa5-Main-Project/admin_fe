@@ -2,8 +2,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation'; // useRouter 임포트
 import {
   LayoutDashboard,
   Users,
@@ -20,34 +19,39 @@ interface SidebarLinkProps {
   icon: React.ElementType;
   label: string;
   isActive: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  router: any; // router 객체를 props로 받도록 추가
 }
 
-const SidebarLink: React.FC<SidebarLinkProps> = ({ href, icon: Icon, label, isActive }) => {
+const SidebarLink: React.FC<SidebarLinkProps> = ({ href, icon: Icon, label, isActive, router }) => {
+  const handleNavigate = () => {
+    router.push(href);
+  };
+
   return (
-    <Link
-      href={href}
+    <div
+      onClick={handleNavigate}
       className={clsx(
-        "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all",
+        "w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all cursor-pointer", // cursor-pointer 추가
         isActive
-          ? "sidebar-link-active" // globals.css에 정의된 활성 스타일 클래스 사용
+          ? "sidebar-link-active"
           : "text-gray-600 hover:bg-gray-50"
       )}
     >
       <Icon className="w-5 h-5" />
       <span>{label}</span>
-    </Link>
+    </div>
   );
 };
 
 export default function Sidebar() {
   const pathname = usePathname();
-  // 하이드레이션 오류 방지를 위한 클라이언트 측 렌더링 상태
+  const router = useRouter(); // useRouter 훅 사용
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
-
 
   const primaryLinks = [
     { href: '/admin/dashboard', icon: LayoutDashboard, label: '대시보드' },
@@ -77,7 +81,6 @@ export default function Sidebar() {
             <span className="text-white text-base font-medium">A</span>
           </div>
           <div>
-            {/* 폰트 크기를 명세에 맞게 16px(text-base)로 수정 */}
             <h1 className="text-gray-900 text-base font-medium">Admin Panel</h1>
             <p className="text-xs text-gray-500">관리자 대시보드</p>
           </div>
@@ -93,6 +96,7 @@ export default function Sidebar() {
             icon={link.icon}
             label={link.label}
             isActive={isClient && (pathname === link.href || (link.href === '/admin/dashboard' && pathname === '/admin'))}
+            router={router} // router 객체 전달
           />
         ))}
 
@@ -105,8 +109,9 @@ export default function Sidebar() {
               icon={link.icon}
               label={link.label}
               isActive={isClient && pathname === link.href}
+              router={router} // router 객체 전달
             />
-))}
+          ))}
         </div>
       </nav>
 
@@ -119,6 +124,7 @@ export default function Sidebar() {
             icon={link.icon}
             label={link.label}
             isActive={isClient && pathname === link.href}
+            router={router} // router 객체 전달
           />
         ))}
       </div>
